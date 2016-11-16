@@ -1,19 +1,17 @@
 {
   "name": "sdd-assignment",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel-node app.js --presets latest"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/grit96/sdd-assignment.git"
+  "author": "Geraint White <mail@geraintwhite.co.uk>",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mysql": "^2.12.0",
+    "node-sass-middleware": "^0.10.0",
+    "pug": "^2.0.0-beta6"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/grit96/sdd-assignment/issues"
-  },
-  "homepage": "https://github.com/grit96/sdd-assignment#readme"
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-latest": "^6.16.0"
+  }
 }
