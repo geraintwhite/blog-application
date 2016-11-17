@@ -55,6 +55,80 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('tag.getTag invalid Tag ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.getTag = (tag_id, cb) => {
+      st.fail('db.getTag should not be called');
+      st.end();
+    };
+
+    api.getTag(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid Tag ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getTag error', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(4);
+
+    db.getTag = (tag_id, cb) => {
+      st.pass('db.getTag is called');
+      st.equal(tag_id, 1, 'correct tag_id');
+      cb(true, null);
+    };
+
+    api.getTag(1, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getTag tag not found', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(4);
+
+    db.getTag = (tag_id, cb) => {
+      st.pass('db.getTag is called');
+      st.equal(tag_id, 1, 'correct tag_id');
+      cb(false, null);
+    };
+
+    api.getTag(1, (code, data) => {
+      st.equal(code, 404, 'correct status code');
+      st.equal(data.err, 'Tag not found', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getTag success', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    const tag = {id: 1, name: 'tag1'};
+
+    st.plan(4);
+
+    db.getTag = (tag_id, cb) => {
+      st.pass('db.getTag is called');
+      st.equal(tag_id, 1, 'correct tag_id');
+      cb(false, tag);
+    };
+
+    api.getTag(1, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.deepEqual(data.tag, tag, 'correct tag object');
+      st.end();
+    });
+  });
+
 };
 
 
