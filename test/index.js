@@ -1,10 +1,14 @@
 import test from 'tape';
 
-test('timing test', (t) => {
-  const start = Date.now();
+import tag_tests from './tag'
+import user_tests from './user'
+import article_tests from './article'
+import author_tests from './author'
+import comment_tests from './comment'
 
-  setTimeout(() => {
-    t.equal(Date.now() - start, 100);
-    t.end();
-  }, 100);
-});
+
+test('Tag tests', tag_tests);
+test('User tests', user_tests);
+test('Article tests', article_tests);
+test('Author tests', author_tests);
+test('Comment tests', comment_tests);
