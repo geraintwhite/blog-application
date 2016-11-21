@@ -9,7 +9,7 @@ const tests = (t) => {
 
     db.getTags = (cb) => {
       st.pass('db.getTags is called');
-      cb(true, null);
+      cb({code: 'ER_ERROR'}, null);
     };
 
     api.all((code, data) => {
@@ -26,7 +26,7 @@ const tests = (t) => {
 
     db.getTags = (cb) => {
       st.pass('db.getTags is called');
-      cb(false, []);
+      cb(null, []);
     };
 
     api.all((code, data) => {
@@ -46,7 +46,7 @@ const tests = (t) => {
 
     db.getTags = (cb) => {
       st.pass('db.getTags is called');
-      cb(false, tags);
+      cb(null, tags);
     };
 
     api.all((code, data) => {
@@ -144,7 +144,7 @@ const tests = (t) => {
     db.createTag = (obj, cb) => {
       st.pass('db.createTag is called');
       st.deepEqual(obj, tag, 'correct object passed in');
-      cb(true, null);
+      cb({code: 'ER_ERROR'}, null);
     };
 
     api.create(tag, (code, data) => {
