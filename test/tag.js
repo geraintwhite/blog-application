@@ -56,7 +56,7 @@ const tests = (t) => {
     });
   });
 
-  t.test('tag.get invalid Tag ID', (st) => {
+  t.test('tag.get invalid tag ID', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(2);
@@ -68,7 +68,7 @@ const tests = (t) => {
 
     api.get(null, (code, data) => {
       st.equal(code, 400, 'correct status code');
-      st.equal(data.err, 'Invalid Tag ID', 'correct error message');
+      st.equal(data.err, 'Invalid tag ID', 'correct error message');
       st.end();
     });
   });
@@ -78,10 +78,10 @@ const tests = (t) => {
 
     st.plan(4);
 
-    db.getTag = (tag_id, cb) => {
+    db.getTag = (id, cb) => {
       st.pass('db.getTag is called');
-      st.equal(tag_id, 1, 'correct tag_id');
-      cb(true, null);
+      st.equal(id, 1, 'correct tag ID');
+      cb({code: 'ER_ERROR'}, null);
     };
 
     api.get(1, (code, data) => {
@@ -96,10 +96,10 @@ const tests = (t) => {
 
     st.plan(4);
 
-    db.getTag = (tag_id, cb) => {
+    db.getTag = (id, cb) => {
       st.pass('db.getTag is called');
-      st.equal(tag_id, 1, 'correct tag_id');
-      cb(false, null);
+      st.equal(id, 1, 'correct tag ID');
+      cb(null, null);
     };
 
     api.get(1, (code, data) => {
@@ -116,10 +116,10 @@ const tests = (t) => {
 
     st.plan(4);
 
-    db.getTag = (tag_id, cb) => {
+    db.getTag = (id, cb) => {
       st.pass('db.getTag is called');
-      st.equal(tag_id, 1, 'correct tag_id');
-      cb(false, tag);
+      st.equal(id, 1, 'correct tag ID');
+      cb(null, tag);
     };
 
     api.get(1, (code, data) => {
