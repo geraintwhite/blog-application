@@ -2,41 +2,41 @@ import TagAPI from '../lib/tag';
 
 
 const tests = (t) => {
-  t.test('tag.getAll error', (st) => {
+  t.test('tag.all error', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(3);
 
-    db.gets = (cb) => {
-      st.pass('db.gets is called');
+    db.getTags = (cb) => {
+      st.pass('db.getTags is called');
       cb(true, null);
     };
 
-    api.getAll((code, data) => {
+    api.all((code, data) => {
       st.equal(code, 500, 'correct status code');
       st.equal(data.err, 'Server error', 'correct error message');
       st.end();
     });
   });
 
-  t.test('tag.getAll no tags', (st) => {
+  t.test('tag.all no tags', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(3);
 
-    db.gets = (cb) => {
-      st.pass('db.gets is called');
+    db.getTags = (cb) => {
+      st.pass('db.getTags is called');
       cb(false, []);
     };
 
-    api.getAll((code, data) => {
+    api.all((code, data) => {
       st.equal(code, 200, 'correct status code');
       st.deepEqual(data.tags, [], 'empty tags array');
       st.end();
     });
   });
 
-  t.test('tag.getAll success', (st) => {
+  t.test('tag.all success', (st) => {
     const db = {}, api = new TagAPI(db);
 
     const tags = [{id: 1, name: 'tag1'},
@@ -44,12 +44,12 @@ const tests = (t) => {
 
     st.plan(3);
 
-    db.gets = (cb) => {
-      st.pass('db.gets is called');
+    db.getTags = (cb) => {
+      st.pass('db.getTags is called');
       cb(false, tags);
     };
 
-    api.getAll((code, data) => {
+    api.all((code, data) => {
       st.equal(code, 200, 'correct status code');
       st.deepEqual(data.tags, tags, 'correct tags array');
       st.end();
@@ -61,8 +61,8 @@ const tests = (t) => {
 
     st.plan(2);
 
-    db.get = (tag_id, cb) => {
-      st.fail('db.get should not be called');
+    db.getTag = (tag_id, cb) => {
+      st.fail('db.getTag should not be called');
       st.end();
     };
 
@@ -78,8 +78,8 @@ const tests = (t) => {
 
     st.plan(4);
 
-    db.get = (tag_id, cb) => {
-      st.pass('db.get is called');
+    db.getTag = (tag_id, cb) => {
+      st.pass('db.getTag is called');
       st.equal(tag_id, 1, 'correct tag_id');
       cb(true, null);
     };
@@ -96,8 +96,8 @@ const tests = (t) => {
 
     st.plan(4);
 
-    db.get = (tag_id, cb) => {
-      st.pass('db.get is called');
+    db.getTag = (tag_id, cb) => {
+      st.pass('db.getTag is called');
       st.equal(tag_id, 1, 'correct tag_id');
       cb(false, null);
     };
@@ -116,8 +116,8 @@ const tests = (t) => {
 
     st.plan(4);
 
-    db.get = (tag_id, cb) => {
-      st.pass('db.get is called');
+    db.getTag = (tag_id, cb) => {
+      st.pass('db.getTag is called');
       st.equal(tag_id, 1, 'correct tag_id');
       cb(false, tag);
     };
