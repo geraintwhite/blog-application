@@ -129,6 +129,85 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('user.create error', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'secret'};
+
+    st.plan(4);
+
+    db.createUser = (obj, cb) => {
+      st.pass('db.getUser is called');
+      st.deepEqual(obj, user, 'correct user object');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.create user already exists', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'secret'};
+
+    st.plan(4);
+
+    db.createUser = (obj, cb) => {
+      st.pass('db.getUser is called');
+      st.deepEqual(obj, user, 'correct user object');
+      cb({code: 'ER_DUP_ENTRY'}, null);
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 409, 'correct status code');
+      st.equal(data.err, 'User already exists', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.create validation fails', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {};
+
+    st.plan(2);
+
+    db.createUser = (obj, cb) => {
+      st.fail('db.getUser should not be called');
+      st.end();
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user object', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.create success', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'secret'};
+
+    st.plan(4);
+
+    db.createUser = (obj, cb) => {
+      st.pass('db.getUser is called');
+      st.deepEqual(obj, user, 'correct user object');
+      cb(null, 1);
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.equal(data.id, 1, 'correct user ID');
+      st.end();
+    });
+  });
 }
 
 
