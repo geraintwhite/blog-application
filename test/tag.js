@@ -208,7 +208,7 @@ const tests = (t) => {
     });
   });
 
-  t.test('tag.delete invalid Tag ID', (st) => {
+  t.test('tag.remove invalid Tag ID', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(2);
@@ -218,14 +218,14 @@ const tests = (t) => {
       st.end();
     };
 
-    api.delete(null, (code, data) => {
+    api.remove(null, (code, data) => {
       st.equal(code, 400, 'correct status code');
       st.equal(data.err, 'Invalid tag ID', 'correct error message');
       st.end();
     });
   });
 
-  t.test('tag.delete error', (st) => {
+  t.test('tag.remove error', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(4);
@@ -236,14 +236,14 @@ const tests = (t) => {
       cb({code: 'ER_ERROR'}, null);
     };
 
-    api.delete(1, (code, data) => {
+    api.remove(1, (code, data) => {
       st.equal(code, 500, 'correct status code');
       st.equal(data.err, 'Server error', 'correct error message');
       st.end();
     });
   });
 
-  t.test('tag.delete tag not found', (st) => {
+  t.test('tag.remove tag not found', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(4);
@@ -254,14 +254,14 @@ const tests = (t) => {
       cb(null, {affectedRows: 0});
     };
 
-    api.delete(1, (code, data) => {
+    api.remove(1, (code, data) => {
       st.equal(code, 404, 'correct status code');
       st.equal(data.err, 'Tag not found', 'correct error message');
       st.end();
     });
   });
 
-  t.test('tag.delete success', (st) => {
+  t.test('tag.remove success', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(3);
@@ -272,7 +272,7 @@ const tests = (t) => {
       cb(null, {affectedRows: 1});
     };
 
-    api.delete(1, (code, data) => {
+    api.remove(1, (code, data) => {
       st.equal(code, 200, 'correct status code');
       st.end();
     });
