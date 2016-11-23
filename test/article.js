@@ -396,6 +396,62 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('article.getComments error', (st) => {
+    const db = {}, api = new ArticleAPI(db);
+
+    st.plan(4);
+
+    db.getCommentsByArticle = (id, cb) => {
+      st.pass('db.getCommentsByArticle is called');
+      st.equal(id, 1, 'correct article ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.getComments(1, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.getComments invalid article ID', (st) => {
+    const db = {}, api = new ArticleAPI(db);
+
+    st.plan(2);
+
+    db.getCommentsByArticle = (id, cb) => {
+      st.fail('db.getCommentsByArticle should not be called');
+      st.end();
+    };
+
+    api.getComments(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid article ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.getComments success', (st) => {
+    const db = {}, api = new ArticleAPI(db);
+
+    const comments = [{id: 1, user_id: 10, article_id: 7, text: 'Some comment'},
+                      {id: 3, user_id: 2, article_id: 7, text: 'Some other comment'}];
+
+    st.plan(4);
+
+    db.getCommentsByArticle = (id, cb) => {
+      st.pass('db.getCommentsByArticle is called');
+      st.equal(id, 7, 'correct article ID');
+      cb(null, comments);
+    };
+
+    api.getComments(7, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.deepEqual(data.comments, comments, 'correct comments object');
+      st.end();
+    });
+  });
 }
 
 
