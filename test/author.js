@@ -185,6 +185,61 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('author.getSubscribers error', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(4);
+
+    db.getSubscribersByAuthor = (id, cb) => {
+      st.pass('db.getSubscribersByAuthor is called');
+      st.equal(id, 7, 'correct author ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.getSubscribers(7, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.getSubscribers invalid author ID', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(2);
+
+    db.getSubscribersByAuthor = (id, cb) => {
+      st.fail('db.getSubscribersByAuthor should not have been called');
+      st.end();
+    };
+
+    api.getSubscribers(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid author ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.getSubscribers success', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    const subscribers = [{id: 1}, {id: 12}, {id: 6}];
+
+    st.plan(4);
+
+    db.getSubscribersByAuthor = (id, cb) => {
+      st.pass('db.getSubscribersByAuthor is called');
+      st.equal(id, 7, 'correct author ID');
+      cb(null, subscribers);
+    };
+
+    api.getSubscribers(7, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.deepEqual(data.subscribers, subscribers, 'correct subscribers object');
+      st.end();
+    });
+  });
 }
 
 
