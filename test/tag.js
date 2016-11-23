@@ -277,6 +277,62 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('tag.getArticles error', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(4);
+
+    db.getArticlesByTag = (id, cb) => {
+      st.pass('db.getArticlesByTag is called');
+      st.equal(id, 1, 'correct tag ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.getArticles(1, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getArticles invalid tag ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.getArticlesByTag = (id, cb) => {
+      st.fail('db.getArticlesByTag should not be called');
+      st.end();
+    };
+
+    api.getArticles(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid tag ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getArticles success', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    const articles = [{id: 1, author_id: 20, title: 'Some title', content: 'Lorem Ipsum Dolor', tags: [{id: 7, name: 'truth'}, {id: 15, name: 'cool'}]},
+                      {id: 3, author_id: 20, title: 'Some title 2', content: 'Very serious text', tags: [{id: 7, name: 'truth'}]}];
+
+    st.plan(4);
+
+    db.getArticlesByTag = (id, cb) => {
+      st.pass('db.getArticlesByTag is called');
+      st.equal(id, 7, 'correct tag ID');
+      cb(null, articles);
+    };
+
+    api.getArticles(7, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.deepEqual(data.articles, articles, 'correct articles object');
+      st.end();
+    });
+  });
 };
 
 
