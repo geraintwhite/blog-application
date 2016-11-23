@@ -318,7 +318,7 @@ const tests = (t) => {
       st.pass('db.updateArticle is called');
       st.equal(id, 1, 'correct article ID');
       st.deepEqual(obj, article, 'correct article object');
-      cb(null, {affectedRows: 0});
+      cb(null, false);
     };
 
     api.update(1, article, (code, data) => {
@@ -339,7 +339,7 @@ const tests = (t) => {
       st.pass('db.updateArticle is called');
       st.equal(id, 1, 'correct article ID');
       st.deepEqual(obj, article, 'correct article object');
-      cb(null, {affectedRows: 1});
+      cb(null, true);
     };
 
     api.update(1, article, (code, data) => {
@@ -391,7 +391,7 @@ const tests = (t) => {
     db.deleteArticle = (id, cb) => {
       st.pass('db.deleteArticle is called');
       st.equal(id, 1, 'correct article ID');
-      cb(null, {affectedRows: 0});
+      cb(null, false);
     };
 
     api.remove(1, (code, data) => {
@@ -409,7 +409,7 @@ const tests = (t) => {
     db.deleteArticle = (id, cb) => {
       st.pass('db.deleteArticle is called');
       st.equal(id, 1, 'correct article ID');
-      cb(null, {affectedRows: 1});
+      cb(null, true);
     };
 
     api.remove(1, (code, data) => {

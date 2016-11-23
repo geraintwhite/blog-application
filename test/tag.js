@@ -251,7 +251,7 @@ const tests = (t) => {
     db.deleteTag = (id, cb) => {
       st.pass('db.deleteTag is called');
       st.equal(id, 1, 'correct tag ID');
-      cb(null, {affectedRows: 0});
+      cb(null, false);
     };
 
     api.remove(1, (code, data) => {
@@ -269,7 +269,7 @@ const tests = (t) => {
     db.deleteTag = (id, cb) => {
       st.pass('db.deleteTag is called');
       st.equal(id, 1, 'correct tag ID');
-      cb(null, {affectedRows: 1});
+      cb(null, true);
     };
 
     api.remove(1, (code, data) => {
