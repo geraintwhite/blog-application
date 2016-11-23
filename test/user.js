@@ -456,6 +456,61 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('user.subscriptions error', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    st.plan(4);
+
+    db.getSubscriptionsForUser = (id, cb) => {
+      st.pass('db.getSubscriptionsForUser is called');
+      st.equal(id, 1, 'correct user ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.subscriptions(1, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.subscriptions invalid user ID', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    st.plan(2);
+
+    db.getSubscriptionsForUser = (id, cb) => {
+      st.fail('db.getSubscriptionsForUser should not be called');
+      st.end();
+    };
+
+    api.subscriptions(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.subscriptions success', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const subscriptions = {author: [{id: 1}, {id: 17}], tag: [{id: 5}, {id: 42}]};
+
+    st.plan(4);
+
+    db.getSubscriptionsForUser = (id, cb) => {
+      st.pass('db.getSubscriptionsForUser is called');
+      st.equal(id, 1, 'correct user ID');
+      cb(null, subscriptions);
+    };
+
+    api.subscriptions(1, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.deepEqual(data.subscriptions, subscriptions, 'correct subscriptions object');
+      st.end();
+    });
+  });
 }
 
 
