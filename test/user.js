@@ -133,7 +133,7 @@ const tests = (t) => {
   t.test('user.create error', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'secret'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd'};
 
     st.plan(4);
 
@@ -153,7 +153,7 @@ const tests = (t) => {
   t.test('user.create user already exists', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'secret'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd'};
 
     st.plan(4);
 
@@ -170,7 +170,7 @@ const tests = (t) => {
     });
   });
 
-  t.test('user.create validation fails', (st) => {
+  t.test('user.create empty user object', (st) => {
     const db = {}, api = new UserAPI(db);
 
     const user = {};
@@ -189,10 +189,48 @@ const tests = (t) => {
     });
   });
 
+  t.test('user.create invalid email address', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Fred Bloggs', email: 'not.an.email.address', password: 'Pa55w0rd'};
+
+    st.plan(2);
+
+    db.createUser = (obj, cb) => {
+      st.fail('db.getUser should not be called');
+      st.end();
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user object', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.create weak password', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'asdf'};
+
+    st.plan(2);
+
+    db.createUser = (obj, cb) => {
+      st.fail('db.getUser should not be called');
+      st.end();
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user object', 'correct error message');
+      st.end();
+    });
+  });
+
   t.test('user.create success', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'secret'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd'};
 
     st.plan(4);
 
@@ -205,6 +243,146 @@ const tests = (t) => {
     api.create(user, (code, data) => {
       st.equal(code, 200, 'correct status code');
       st.equal(data.id, 1, 'correct user ID');
+      st.end();
+    });
+  });
+
+  t.test('user.update invalid user ID', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Joe Bloggs'};
+
+    st.plan(2);
+
+    db.updateUser = (id, obj, cb) => {
+      st.fail('db.updateUser should not be called');
+      st.end();
+    };
+
+    api.update(null, user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.update error', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Joe Bloggs'};
+
+    st.plan(5);
+
+    db.updateUser = (id, obj, cb) => {
+      st.pass('db.updateUser is called');
+      st.equal(id, 1, 'correct user ID');
+      st.deepEqual(obj, user, 'correct user object');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.update(1, user, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.update user not found', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Joe Bloggs'};
+
+    st.plan(5);
+
+    db.updateUser = (id, obj, cb) => {
+      st.pass('db.updateUser is called');
+      st.equal(id, 1, 'correct user ID');
+      st.deepEqual(obj, user, 'correct user object');
+      cb(null, {affectedRows: 0});
+    };
+
+    api.update(1, user, (code, data) => {
+      st.equal(code, 404, 'correct status code');
+      st.equal(data.err, 'User not found', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.update user already exists', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {email: 'joe.bloggs@mail.com'};
+
+    st.plan(5);
+
+    db.updateUser = (id, obj, cb) => {
+      st.pass('db.updateUser is called');
+      st.equal(id, 1, 'correct user ID');
+      st.deepEqual(obj, user, 'correct user object');
+      cb({code: 'ER_DUP_ENTRY'}, null);
+    };
+
+    api.update(1, user, (code, data) => {
+      st.equal(code, 409, 'correct status code');
+      st.equal(data.err, 'User already exists', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.update invalid email address', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {email: 'not.an.email.address'};
+
+    st.plan(2);
+
+    db.updateUser = (id, obj, cb) => {
+      st.fail('db.updateUser should not be called');
+      st.end();
+    };
+
+    api.update(1, user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user object', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.update weak password', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {password: 'asdf'};
+
+    st.plan(2);
+
+    db.updateUser = (id, obj, cb) => {
+      st.fail('db.updateUser should not be called');
+      st.end();
+    };
+
+    api.update(1, user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user object', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.update success', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Joe Bloggs'};
+
+    st.plan(4);
+
+    db.updateUser = (id, obj, cb) => {
+      st.pass('db.updateUser is called');
+      st.equal(id, 1, 'correct user ID');
+      st.deepEqual(obj, user, 'correct user object');
+      cb(null, {affectedRows: 1});
+    };
+
+    api.update(1, user, (code, data) => {
+      st.equal(code, 200, 'correct status code');
       st.end();
     });
   });
