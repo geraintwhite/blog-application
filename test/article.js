@@ -36,27 +36,6 @@ const tests = (t) => {
     });
   });
 
-  t.test('article.all error', (st) => {
-    const db = {}, api = new ArticleAPI(db);
-
-    const articles = [{id: 1, author_id: 20, title: 'Some title', content: 'Lorem Ipsum Dolor', tags: [{id: 7, name: 'truth'}, {id: 15, name: 'cool'}]},
-                      {id: 2, author_id: 6, title: 'STUFF', content: 'THIS IS SO COOL', tags: []},
-                      {id: 3, author_id: 20, title: 'Some title 2', content: 'Very serious text', tags: [{id: 7, name: 'truth'}]}];
-
-    st.plan(3);
-
-    db.getArticles = (cb) => {
-      st.pass('db.getArticles is called');
-      cb({code: 'ER_ERROR'}, null);
-    };
-
-    api.all((code, data) => {
-      st.equal(code, 500, 'correct status code');
-      st.equal(data.err, 'Server error', 'correct error message');
-      st.end();
-    });
-  });
-
   t.test('article.all success', (st) => {
     const db = {}, api = new ArticleAPI(db);
 
