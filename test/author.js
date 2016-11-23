@@ -240,6 +240,148 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('author.subscribe error', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(5);
+
+    db.subscribeToAuthor = (author_id, subscriber_id, cb) => {
+      st.pass('db.subscribeToAuthor is called');
+      st.equal(author_id, 7, 'correct author ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.subscribe(7, 24, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.subscribe invalid author ID', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(2);
+
+    db.subscribeToAuthor = (author_id, subscriber_id, cb) => {
+      st.fail('db.subscribeToAuthor should not have been called');
+      st.end();
+    };
+
+    api.subscribe(null, 24, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid author ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.subscribe invalid subscriber ID', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(2);
+
+    db.subscribeToAuthor = (author_id, subscriber_id, cb) => {
+      st.fail('db.subscribeToAuthor should not have been called');
+      st.end();
+    };
+
+    api.subscribe(7, null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid subscriber ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.subscribe success', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(4);
+
+    db.subscribeToAuthor = (author_id, subscriber_id, cb) => {
+      st.pass('db.subscribeToAuthor is called');
+      st.equal(author_id, 7, 'correct author ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb(null, null);
+    };
+
+    api.subscribe(7, 24, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.end();
+    });
+  });
+
+  t.test('author.unsubscribe error', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(5);
+
+    db.unsubscribeFromAuthor = (author_id, subscriber_id, cb) => {
+      st.pass('db.unsubscribeFromAuthor is called');
+      st.equal(author_id, 7, 'correct author ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.unsubscribe(7, 24, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.unsubscribe invalid author ID', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(2);
+
+    db.unsubscribeFromAuthor = (author_id, subscriber_id, cb) => {
+      st.fail('db.unsubscribeFromAuthor should not have been called');
+      st.end();
+    };
+
+    api.unsubscribe(null, 24, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid author ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.unsubscribe invalid subscriber ID', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(2);
+
+    db.unsubscribeFromAuthor = (author_id, subscriber_id, cb) => {
+      st.fail('db.unsubscribeFromAuthor should not have been called');
+      st.end();
+    };
+
+    api.unsubscribe(7, null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid subscriber ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('author.unsubscribe success', (st) => {
+    const db = {}, api = new AuthorAPI(db);
+
+    st.plan(4);
+
+    db.unsubscribeFromAuthor = (author_id, subscriber_id, cb) => {
+      st.pass('db.unsubscribeFromAuthor is called');
+      st.equal(author_id, 7, 'correct author ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb(null, null);
+    };
+
+    api.unsubscribe(7, 24, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.end();
+    });
+  });
 }
 
 
