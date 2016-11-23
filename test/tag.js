@@ -208,7 +208,7 @@ const tests = (t) => {
     });
   });
 
-  t.test('tag.remove invalid Tag ID', (st) => {
+  t.test('tag.remove invalid tag ID', (st) => {
     const db = {}, api = new TagAPI(db);
 
     st.plan(2);
