@@ -386,6 +386,76 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('user.remove invalid user ID', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    st.plan(2);
+
+    db.deleteUser = (id, cb) => {
+      st.fail('db.deleteUser should not be called');
+      st.end();
+    };
+
+    api.remove(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.remove error', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    st.plan(4);
+
+    db.deleteUser = (id, cb) => {
+      st.pass('db.deleteUser is called');
+      st.equal(id, 1, 'correct user ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.remove(1, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.remove user not found', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    st.plan(4);
+
+    db.deleteUser = (id, cb) => {
+      st.pass('db.deleteUser is called');
+      st.equal(id, 1, 'correct user ID');
+      cb(null, {affectedRows: 0});
+    };
+
+    api.remove(1, (code, data) => {
+      st.equal(code, 404, 'correct status code');
+      st.equal(data.err, 'User not found', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.remove success', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    st.plan(3);
+
+    db.deleteUser = (id, cb) => {
+      st.pass('db.deleteUser is called');
+      st.equal(id, 1, 'correct user ID');
+      cb(null, {affectedRows: 1});
+    };
+
+    api.remove(1, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.end();
+    });
+  });
 }
 
 
