@@ -333,6 +333,203 @@ const tests = (t) => {
       st.end();
     });
   });
+
+  t.test('tag.getSubscribers error', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(4);
+
+    db.getSubscribersByTag = (id, cb) => {
+      st.pass('db.getSubscribersByTag is called');
+      st.equal(id, 7, 'correct tag ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.getSubscribers(7, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getSubscribers invalid tag ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.getSubscribersByTag = (id, cb) => {
+      st.fail('db.getSubscribersByTag should not have been called');
+      st.end();
+    };
+
+    api.getSubscribers(null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid tag ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.getSubscribers success', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    const subscribers = [{id: 1}, {id: 12}, {id: 6}];
+
+    st.plan(4);
+
+    db.getSubscribersByTag = (id, cb) => {
+      st.pass('db.getSubscribersByTag is called');
+      st.equal(id, 7, 'correct tag ID');
+      cb(null, subscribers);
+    };
+
+    api.getSubscribers(7, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.deepEqual(data.subscribers, subscribers, 'correct subscribers object');
+      st.end();
+    });
+  });
+
+  t.test('tag.subscribe error', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(5);
+
+    db.subscribeToTag = (tag_id, subscriber_id, cb) => {
+      st.pass('db.subscribeToTag is called');
+      st.equal(tag_id, 7, 'correct tag ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.subscribe(7, 24, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.subscribe invalid tag ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.subscribeToTag = (tag_id, subscriber_id, cb) => {
+      st.fail('db.subscribeToTag should not have been called');
+      st.end();
+    };
+
+    api.subscribe(null, 24, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid tag ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.subscribe invalid subscriber ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.subscribeToTag = (tag_id, subscriber_id, cb) => {
+      st.fail('db.subscribeToTag should not have been called');
+      st.end();
+    };
+
+    api.subscribe(7, null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid subscriber ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.subscribe success', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(4);
+
+    db.subscribeToTag = (tag_id, subscriber_id, cb) => {
+      st.pass('db.subscribeToTag is called');
+      st.equal(tag_id, 7, 'correct tag ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb(null, null);
+    };
+
+    api.subscribe(7, 24, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.end();
+    });
+  });
+
+  t.test('tag.unsubscribe error', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(5);
+
+    db.unsubscribeFromTag = (tag_id, subscriber_id, cb) => {
+      st.pass('db.unsubscribeFromTag is called');
+      st.equal(tag_id, 7, 'correct tag ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb({code: 'ER_ERROR'}, null);
+    };
+
+    api.unsubscribe(7, 24, (code, data) => {
+      st.equal(code, 500, 'correct status code');
+      st.equal(data.err, 'Server error', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.unsubscribe invalid tag ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.unsubscribeFromTag = (tag_id, subscriber_id, cb) => {
+      st.fail('db.unsubscribeFromTag should not have been called');
+      st.end();
+    };
+
+    api.unsubscribe(null, 24, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid tag ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.unsubscribe invalid subscriber ID', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(2);
+
+    db.unsubscribeFromTag = (tag_id, subscriber_id, cb) => {
+      st.fail('db.unsubscribeFromTag should not have been called');
+      st.end();
+    };
+
+    api.unsubscribe(7, null, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid subscriber ID', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('tag.unsubscribe success', (st) => {
+    const db = {}, api = new TagAPI(db);
+
+    st.plan(4);
+
+    db.unsubscribeFromTag = (tag_id, subscriber_id, cb) => {
+      st.pass('db.unsubscribeFromTag is called');
+      st.equal(tag_id, 7, 'correct tag ID');
+      st.equal(subscriber_id, 24, 'correct subscriber ID');
+      cb(null, null);
+    };
+
+    api.unsubscribe(7, 24, (code, data) => {
+      st.equal(code, 200, 'correct status code');
+      st.end();
+    });
+  });
 };
 
 
