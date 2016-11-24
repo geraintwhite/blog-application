@@ -3,3 +3,24 @@
 h1 {
   color: $brand-primary;
 }
+
+.article-list {
+  list-style: none;
+  width: 70%;
+
+  .article-entry {
+    background-color: $brand-primary;
+
+    .left {
+      display: inline-block;
+    }
+
+    .tags {
+      float: right;
+      width: 20%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
