@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import sass from 'node-sass-middleware';
+import router from './routes';
 
 
 const app = express();
@@ -15,9 +16,7 @@ app.use(sass({
   response: true,
 }));
 
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Hello World!', message: 'My Site' });
-});
+app.use('/', router);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(app.get('port'), () => {
