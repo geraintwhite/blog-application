@@ -24,10 +24,10 @@ h1 {
 
     .tags {
       float: right;
-      width: 20%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+
+      .tag-link {
+        margin: 5px;
+      }
     }
   }
 }

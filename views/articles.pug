@@ -8,4 +8,6 @@ block content
         div.left
           a.article-title(href='/article/' + article.article_id)= article.title
           a.author-name(href='/author/' + article.author_id)= article.author_name
-        div.tags= article.tags
+        div.tags
+          each tag in article.tags
+            a.tag-link(href='/tag/' + tag.tag_id)= tag.tag_name
