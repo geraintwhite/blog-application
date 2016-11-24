@@ -10,3 +10,9 @@ block content
       a.tag-link(href='/tag/' + tag.tag_id)= tag.tag_name
 
   p.article-content= article.content
+
+  div.comments
+    each comment in comments
+      div.comment
+        p.user-name= comment.user_name
+        p.comment-text= comment.text

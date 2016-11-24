@@ -38,14 +38,28 @@ class ArticleDB {
     });
   }
 
-  getArticle(id, cb) {
+  getArticle(article_id, cb) {
     const sql = articleSelect +
       'WHERE article.article_id = ? ' +
       'GROUP BY article.article_id';
 
-    this.pool.query(sql, [id], (err, rows) => {
+    this.pool.query(sql, [article_id], (err, rows) => {
       if (err) console.error(err);
       cb(err, rows && groupTags(rows)[0]);
+    });
+  }
+
+  getCommentsByArticle(article_id, cb) {
+    const sql =
+      'SELECT comment.comment_id, comment.text, comment.date_published, ' +
+             'comment.user_id, user.name AS user_name ' +
+      'FROM comment ' +
+        'LEFT JOIN user ON user.user_id = comment.user_id ' +
+      'WHERE comment.article_id = ?';
+
+    this.pool.query(sql, [article_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows);
     });
   }
 }

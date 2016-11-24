@@ -4,12 +4,12 @@ import ArticleDB from '../db/article';
 import pool from '../db/pool';
 
 
-const article = new ArticleAPI(new ArticleDB(pool));
+const articleAPI = new ArticleAPI(new ArticleDB(pool));
 const router = express.Router();
 
 
 router.get('/', (req, res) => {
-  article.all((code, data) => {
+  articleAPI.all((code, data) => {
     if (code !== 200) {
       res.render('error', {title: 'Error', message: data.err});
     } else {
@@ -19,12 +19,20 @@ router.get('/', (req, res) => {
 });
 
 router.get('/article/:id', (req, res) => {
-  article.get(req.params.id, (code, data) => {
+  articleAPI.get(req.params.id, (code, data) => {
     if (code !== 200) {
-      res.render('error', {title: 'Error', message: data.err});
-    } else {
-      res.render('article', {title: data.article.title, article: data.article});
+      return res.render('error', {title: 'Error', message: data.err});
     }
+
+    const article = data.article;
+
+    articleAPI.getComments(req.params.id, (code, data) => {
+      if (code !== 200) {
+        res.render('error', {title: 'Error', message: data.err});
+      } else {
+        res.render('article', {title: article.title, article: article, comments: data.comments});
+      }
+    });
   });
 });
 
