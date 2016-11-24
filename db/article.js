@@ -1,4 +1,4 @@
-const groupTags = (rows) => {
+export const groupTags = (rows) => {
   rows.forEach((row) => {
     row.tags = [];
     if (row.tag_ids && row.tag_ids.length) {
@@ -12,7 +12,7 @@ const groupTags = (rows) => {
 }
 
 
-const articleSelect =
+export const articleSelect =
   'SELECT article.article_id, article.author_id, user.name AS author_name, ' +
          'article.date_published, article.title, article.content, ' +
          'GROUP_CONCAT(tag.tag_id) AS tag_ids, ' +
