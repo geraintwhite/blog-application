@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h1= title
+  p.article-title= article.title
+  a.author-name(href='/author/' + article.author_id)= article.author_name
+
+  div.tags
+    each tag in article.tags
+      a.tag-link(href='/tag/' + tag.tag_id)= tag.tag_name
+
+  p.article-content= article.content
