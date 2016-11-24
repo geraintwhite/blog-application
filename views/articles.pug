@@ -6,6 +6,6 @@ block content
     each article in articles
       li.article-entry
         div.left
-          div.article-title= article.title
-          div.author-name= article.author_name
+          a.article-title(href='/article/' + article.article_id)= article.title
+          a.author-name(href='/author/' + article.author_id)= article.author_name
         div.tags= article.tags
