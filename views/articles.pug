@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  ul.article-list
+    each article in articles
+      li.article-entry
+        div.left
+          div.article-title= article.title
+          div.author-name= article.author_name
+        div.tags= article.tags

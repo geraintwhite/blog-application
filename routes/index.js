@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     if (code === 500) {
       res.render('error', {title: 'Error', message: data.err});
     } else {
-      res.render('articleList', {title: 'Latest Articles', articles: data.articles});
+      res.render('articles', {title: 'Latest Articles', articles: data.articles.slice(0, 10)});
     }
   });
 });
