@@ -1,7 +1,8 @@
 import express from 'express';
 import path from 'path';
 import sass from 'node-sass-middleware';
-import router from './routes';
+
+import {ArticleRouter, AuthorRouter} from './routes';
 
 
 const app = express();
@@ -16,7 +17,8 @@ app.use(sass({
   response: true,
 }));
 
-app.use('/', router);
+app.use(ArticleRouter);
+app.use(AuthorRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(app.get('port'), () => {
