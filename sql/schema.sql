@@ -1,3 +1,9 @@
+DROP DATABASE IF EXISTS blog;
+CREATE DATABASE blog;
+
+USE blog;
+
+
 -- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: blog
@@ -31,7 +37,7 @@ CREATE TABLE `article` (
   PRIMARY KEY (`article_id`),
   KEY `author_id` (`author_id`),
   CONSTRAINT `article_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +54,7 @@ CREATE TABLE `article_tag` (
   KEY `tag_id` (`tag_id`),
   CONSTRAINT `article_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`),
   CONSTRAINT `article_tag_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,7 +71,7 @@ CREATE TABLE `author_subscriber` (
   KEY `subscriber_id` (`subscriber_id`),
   CONSTRAINT `author_subscriber_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `author_subscriber_ibfk_2` FOREIGN KEY (`subscriber_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,7 +92,7 @@ CREATE TABLE `comment` (
   KEY `article_id` (`article_id`),
   CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
   CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +107,7 @@ CREATE TABLE `tag` (
   `tag_name` varchar(16) NOT NULL,
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `tag_name` (`tag_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -118,7 +124,7 @@ CREATE TABLE `tag_subscriber` (
   KEY `tag_id` (`tag_id`),
   CONSTRAINT `tag_subscriber_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`),
   CONSTRAINT `tag_subscriber_ibfk_1` FOREIGN KEY (`subscriber_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,10 +140,10 @@ CREATE TABLE `user` (
   `email` varchar(128) NOT NULL,
   `is_author` tinyint(1) NOT NULL DEFAULT '0',
   `is_admin` tinyint(1) NOT NULL DEFAULT '0',
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
