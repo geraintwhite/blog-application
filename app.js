@@ -2,7 +2,11 @@ import express from 'express';
 import path from 'path';
 import sass from 'node-sass-middleware';
 
-import {ArticleRouter, AuthorRouter} from './routes';
+import {
+  ArticleRouter,
+  AuthorRouter,
+  TagRouter
+} from './routes';
 
 
 const app = express();
@@ -19,6 +23,7 @@ app.use(sass({
 
 app.use(ArticleRouter);
 app.use(AuthorRouter);
+app.use(TagRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(app.get('port'), () => {
