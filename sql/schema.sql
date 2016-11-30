@@ -36,7 +36,7 @@ CREATE TABLE `article` (
   `content` text,
   PRIMARY KEY (`article_id`),
   KEY `author_id` (`author_id`),
-  CONSTRAINT `article_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`)
+  CONSTRAINT `article_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -52,8 +52,9 @@ CREATE TABLE `article_tag` (
   `tag_id` int(11) NOT NULL,
   KEY `article_id` (`article_id`),
   KEY `tag_id` (`tag_id`),
-  CONSTRAINT `article_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`),
-  CONSTRAINT `article_tag_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`)
+  UNIQUE KEY `article_tag` (`article_id`, `tag_id`),
+  CONSTRAINT `article_tag_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE,
+  CONSTRAINT `article_tag_ibfk_1` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE CASCADE
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -69,8 +70,9 @@ CREATE TABLE `author_subscriber` (
   `subscriber_id` int(11) NOT NULL,
   KEY `author_id` (`author_id`),
   KEY `subscriber_id` (`subscriber_id`),
-  CONSTRAINT `author_subscriber_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `author_subscriber_ibfk_2` FOREIGN KEY (`subscriber_id`) REFERENCES `user` (`user_id`)
+  UNIQUE KEY `author_subscriber` (`author_id`, `subscriber_id`),
+  CONSTRAINT `author_subscriber_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `author_subscriber_ibfk_2` FOREIGN KEY (`subscriber_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -90,8 +92,8 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`comment_id`),
   KEY `user_id` (`user_id`),
   KEY `article_id` (`article_id`),
-  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`)
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`article_id`) REFERENCES `article` (`article_id`) ON DELETE CASCADE
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,8 +124,9 @@ CREATE TABLE `tag_subscriber` (
   `subscriber_id` int(11) NOT NULL,
   KEY `subscriber_id` (`subscriber_id`),
   KEY `tag_id` (`tag_id`),
-  CONSTRAINT `tag_subscriber_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`),
-  CONSTRAINT `tag_subscriber_ibfk_1` FOREIGN KEY (`subscriber_id`) REFERENCES `user` (`user_id`)
+  UNIQUE KEY `tag_subscriber` (`tag_id`, `subscriber_id`),
+  CONSTRAINT `tag_subscriber_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE,
+  CONSTRAINT `tag_subscriber_ibfk_1` FOREIGN KEY (`subscriber_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
