@@ -1,18 +1,21 @@
 extends layout
 
 block content
-  h1= title
-  p.article-title= article.title
-  a.author-name(href='/author/' + article.author_id)= article.author_name
+  .panel.panel-primary
+    .panel-heading
+      h3.panel-title
+        a.author-name(href='/author/' + article.author_id)= article.author_name
+    .panel-body
+      .tags
+        each tag in article.tags
+          a.tag-link.label.label-default(href='/tag/' + tag.tag_id)= tag.tag_name
 
-  div.tags
-    each tag in article.tags
-      a.tag-link(href='/tag/' + tag.tag_id)= tag.tag_name
+  .article-content.well= article.content
 
-  p.article-content= article.content
-
-  div.comments
+  .comments
     each comment in comments
-      div.comment
-        a.user-name(href='/author/' + comment.user_id)= comment.user_name
-        p.comment-text= comment.text
+      .comment.panel.panel-default
+        .panel-heading
+          .user-name= comment.user_name
+        .panel-body
+          .comment-text= comment.text

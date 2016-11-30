@@ -1,13 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  ul.article-list
+  .article-list
     each article in articles
-      li.article-entry
-        div.left
-          a.article-title(href='/article/' + article.article_id)= article.title
+      .article-entry.panel.panel-default
+        .panel-heading
+          .panel-title.pull-left
+            a.article-title(href='/article/' + article.article_id)= article.title
+          .tags.pull-right
+            each tag in article.tags
+              a.tag-link.label.label-default(href='/tag/' + tag.tag_id)= tag.tag_name
+          .clearfix
+        .panel-body
           a.author-name(href='/author/' + article.author_id)= article.author_name
-        div.tags
-          each tag in article.tags
-            a.tag-link(href='/tag/' + tag.tag_id)= tag.tag_name
+          p.article-content= article.content.substr(0, 140).trim() + '...'
