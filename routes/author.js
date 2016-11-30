@@ -20,7 +20,7 @@ router.get('/:id', (req, res) => {
       if (code !== 200) {
         res.render('error', {title: 'Error', message: data.err});
       } else {
-        res.render('articles', {title: author.name, articles: data.articles});
+        res.render('article/all', {title: author.name, articles: data.articles});
       }
     });
   });

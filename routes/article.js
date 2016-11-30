@@ -13,13 +13,17 @@ router.get('/', (req, res) => {
     if (code !== 200) {
       res.render('error', {title: 'Error', message: data.err});
     } else {
-      res.render('articles', {title: 'Latest Articles', articles: data.articles.slice(0, 10)});
+      res.render('article/all', {title: 'Latest Articles', articles: data.articles.slice(0, 10)});
     }
   });
 });
 
 router.get('/new', (req, res) => {
-  res.render('new-article', {title: 'New Article'});
+  res.render('article/new', {title: 'New Article'});
+});
+
+router.post('/new', (req, res) => {
+  res.send(req.body);
 });
 
 router.get('/:id', (req, res) => {
@@ -34,7 +38,7 @@ router.get('/:id', (req, res) => {
       if (code !== 200) {
         res.render('error', {title: 'Error', message: data.err});
       } else {
-        res.render('article', {title: article.title, article: article, comments: data.comments});
+        res.render('article/show', {title: article.title, article: article, comments: data.comments});
       }
     });
   });

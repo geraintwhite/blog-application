@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.get('/new', (req, res) => {
-  res.render('new-user', {title: 'Sign Up'});
+  res.render('user/new', {title: 'Sign Up'});
 });
 
 router.post('/new', (req, res) => {
