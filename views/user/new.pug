@@ -1,14 +1,17 @@
-extends layout
+extends ../layout
 
 block content
-  form#create-article(method='post')
+  form#signup(method='post')
     .form-group
-      label(for='create-article-title') Title:
-      input#create-article-title.form-control(type='text', name='title', placeholder='Article Title')
+      label(for='signup-email') Email:
+      input#signup-email.form-control(type='email', name='email', placeholder='Email Address')
     .form-group
-      label(for='create-article-tags') Tags:
-      input#create-article-tags.form-control(type='text', name='tags', placeholder='Article Tags')
+      label(for='signup-name') Name:
+      input#signup-name.form-control(type='text', name='name', placeholder='Full Name')
     .form-group
-      label(for='create-article-content') Content:
-      textarea#create-article-content.form-control(name='content', placeholder='Article Content')
-    button.btn(type='submit') Create Article
+      label(for='signup-password') Password:
+      input#signup-password.form-control(type='password', name='password', placeholder='Password')
+    .form-group
+      label(for='signup-password2') Confirm Password:
+      input#signup-password2.form-control(type='password', name='password2', placeholder='Confirm Password')
+    button.btn(type='submit') Sign Up
