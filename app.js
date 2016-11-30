@@ -3,11 +3,10 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import sass from 'node-sass-middleware';
 
-import {
-  ArticleRouter,
-  AuthorRouter,
-  TagRouter
-} from './routes';
+import ArticleRouter from './routes/article';
+import AuthorRouter from './routes/author';
+import TagRouter from './routes/tag';
+import UserRouter from './routes/user';
 
 
 const app = express();
@@ -24,5 +23,6 @@ app.get('/', (req, res) => res.redirect('/article'));
 app.use('/article', ArticleRouter);
 app.use('/author', AuthorRouter);
 app.use('/tag', TagRouter);
+app.use('/user', UserRouter);
 
 app.listen(app.get('port'), () => console.log('Server listening on port', app.get('port')));
