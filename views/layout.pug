@@ -15,7 +15,7 @@ html
             a.dropdown-toggle(href='#' data-toggle='dropdown') Fred
               span.caret
             ul.dropdown-menu
-              li: a(href='/user/#{user.id}') Manage User
+              li: a(href=`/user/${user.id}`) Manage User
               li: a(href='/logout') Log Out
         else
           li: a(href='/login') Log In
