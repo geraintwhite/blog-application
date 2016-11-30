@@ -3,7 +3,23 @@ html
   head
     title= title
     link(rel='stylesheet', href='/css/style.css')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
   body
+    .navbar.navbar-default: .container-fluid
+      .navbar-header
+        a.navbar-brand(href='/') Blog Application
+      ul.nav.navbar-nav.navbar-right
+        if user
+          li.dropdown
+            a.dropdown-toggle(href='#' data-toggle='dropdown') Fred
+              span.caret
+            ul.dropdown-menu
+              li: a(href='/user/#{user.id}') Manage User
+              li: a(href='/logout') Log Out
+        else
+          li: a(href='/login') Log In
+          li: a(href='/user/new') Sign Up
     .container.col-md-8
       .page-header
         h1= title
