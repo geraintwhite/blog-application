@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import path from 'path';
 import sass from 'node-sass-middleware';
 
@@ -14,12 +15,9 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'pug');
 
-app.use(sass({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  outputStyle: 'compressed',
-  response: true,
-}));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(sass(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => res.redirect('/article'));
 
