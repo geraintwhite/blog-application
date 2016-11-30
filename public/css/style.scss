@@ -1,10 +1,6 @@
 @import 'variables';
 @import 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 
-.article-list {
-  width: 70%;
-}
-
-.tag-link {
-  margin: 5px;
+.label + .label {
+  margin-left: 5px;
 }

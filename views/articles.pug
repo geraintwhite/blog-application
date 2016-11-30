@@ -7,10 +7,10 @@ block content
         .panel-heading
           .panel-title.pull-left
             a.article-title(href='/article/' + article.article_id)= article.title
-          .tags.pull-right
+          .article-tags.pull-right
             each tag in article.tags
-              a.tag-link.label.label-default(href='/tag/' + tag.tag_id)= tag.tag_name
+              a.tag.label.label-default(href='/tag/' + tag.tag_id)= tag.tag_name
           .clearfix
         .panel-body
-          a.author-name(href='/author/' + article.author_id)= article.author_name
+          a.article-author(href='/author/' + article.author_id)= article.author_name
           p.article-content= article.content.substr(0, 140).trim() + '...'

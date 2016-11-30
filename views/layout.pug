@@ -5,7 +5,9 @@ html
     link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', rel='stylesheet')
     link(rel='stylesheet', href='/css/style.css')
   body
-    .container
+    .container.col-md-8
       .page-header
         h1= title
       block content
+    .container.col-md-2
+      block sidebar

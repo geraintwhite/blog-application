@@ -4,18 +4,18 @@ block content
   .panel.panel-primary
     .panel-heading
       h3.panel-title
-        a.author-name(href='/author/' + article.author_id)= article.author_name
+        a.article-author(href='/author/' + article.author_id)= article.author_name
     .panel-body
-      .tags
+      .article-tags
         each tag in article.tags
-          a.tag-link.label.label-default(href='/tag/' + tag.tag_id)= tag.tag_name
+          a.tag.label.label-default(href='/tag/' + tag.tag_id)= tag.tag_name
 
   .article-content.well= article.content
 
-  .comments
+  .article-comments
     each comment in comments
       .comment.panel.panel-default
         .panel-heading
-          .user-name= comment.user_name
+          .comment-user= comment.user_name
         .panel-body
           .comment-text= comment.text
