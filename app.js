@@ -21,11 +21,10 @@ app.use(sass({
   response: true,
 }));
 
-app.use(ArticleRouter);
-app.use(AuthorRouter);
-app.use(TagRouter);
+app.get('/', (req, res) => res.redirect('/article'));
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.listen(app.get('port'), () => {
-  console.log('Server listening on port', app.get('port'));
-});
+app.use('/article', ArticleRouter);
+app.use('/author', AuthorRouter);
+app.use('/tag', TagRouter);
+
+app.listen(app.get('port'), () => console.log('Server listening on port', app.get('port')));

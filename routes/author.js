@@ -8,7 +8,7 @@ const authorAPI = new AuthorAPI(new AuthorDB(pool));
 const router = express.Router();
 
 
-router.get('/author/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   authorAPI.get(req.params.id, (code, data) => {
     if (code !== 200) {
       return res.render('error', {title: 'Error', message: data.err});

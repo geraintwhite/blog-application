@@ -18,11 +18,11 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/article/new', (req, res) => {
+router.get('/new', (req, res) => {
   res.render('new-article', {title: 'New Article'});
 });
 
-router.get('/article/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   articleAPI.get(req.params.id, (code, data) => {
     if (code !== 200) {
       return res.render('error', {title: 'Error', message: data.err});

@@ -8,7 +8,7 @@ const tagAPI = new TagAPI(new TagDB(pool));
 const router = express.Router();
 
 
-router.get('/tag/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   tagAPI.get(req.params.id, (code, data) => {
     if (code !== 200) {
       return res.render('error', {title: 'Error', message: data.err});
