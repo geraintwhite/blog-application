@@ -2,16 +2,22 @@ extends ../layout
 
 block content
   form#signup(method='post')
-    .form-group
-      label(for='signup-email') Email:
-      input#signup-email.form-control(type='email', name='email', placeholder='Email Address')
-    .form-group
-      label(for='signup-name') Name:
-      input#signup-name.form-control(type='text', name='name', placeholder='Full Name')
-    .form-group
-      label(for='signup-password') Password:
-      input#signup-password.form-control(type='password', name='password', placeholder='Password')
-    .form-group
-      label(for='signup-password2') Confirm Password:
-      input#signup-password2.form-control(type='password', name='password2', placeholder='Confirm Password')
-    button.btn(type='submit') Sign Up
+    .form-group(class=errors && errors.email && 'has-error')
+      label.control-label(for='signup-email') Email:
+      input#signup-email.form-control(type='email', name='email', required, value=form && form.email, placeholder='Email Address')
+      .help-block= errors && errors.email
+    .form-group(class=errors && errors.name && 'has-error')
+      label.control-label(for='signup-name') Name:
+      input#signup-name.form-control(type='text', name='name', required, value=form && form.name, placeholder='Full Name')
+      .help-block= errors && errors.name
+    .form-group(class=errors && errors.password && 'has-error')
+      label.control-label(for='signup-password') Password:
+      input#signup-password.form-control(type='password', name='password', required, value=form && form.password, placeholder='Password')
+      .help-block= errors && errors.password
+    .form-group(class=errors && errors.password2 && 'has-error')
+      label.control-label(for='signup-password2') Confirm Password:
+      input#signup-password2.form-control(type='password', name='password2', required, value=form && form.password2, placeholder='Confirm Password')
+      .help-block= errors && errors.password2
+    .form-group(class=err && 'has-error')
+      button.btn(type='submit') Sign Up
+      .help-block= err
