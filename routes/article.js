@@ -3,6 +3,8 @@ import ArticleAPI from '../lib/article';
 import ArticleDB from '../db/article';
 import pool from '../db/pool';
 
+import {isAuthor} from '../lib/util/roles';
+
 
 const articleAPI = new ArticleAPI(new ArticleDB(pool));
 const router = express.Router();
