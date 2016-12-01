@@ -133,7 +133,7 @@ const tests = (t) => {
   t.test('user.create error', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd', password2: 'Pa55w0rd'};
 
     st.plan(4);
 
@@ -153,7 +153,7 @@ const tests = (t) => {
   t.test('user.create user already exists', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd', password2: 'Pa55w0rd'};
 
     st.plan(4);
 
@@ -192,7 +192,7 @@ const tests = (t) => {
   t.test('user.create invalid email address', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'not.an.email.address', password: 'Pa55w0rd'};
+    const user = {name: 'Fred Bloggs', email: 'not.an.email.address', password: 'Pa55w0rd', password2: 'Pa55w0rd'};
 
     st.plan(2);
 
@@ -211,7 +211,26 @@ const tests = (t) => {
   t.test('user.create weak password', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'asdf'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'asdf', password2: 'asdf'};
+
+    st.plan(2);
+
+    db.createUser = (obj, cb) => {
+      st.fail('db.getUser should not be called');
+      st.end();
+    };
+
+    api.create(user, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid user object', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('user.create password mismatch', (st) => {
+    const db = {}, api = new UserAPI(db);
+
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd', password2: 'bogus'};
 
     st.plan(2);
 
@@ -230,7 +249,7 @@ const tests = (t) => {
   t.test('user.create success', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd'};
+    const user = {name: 'Fred Bloggs', email: 'fred.bloggs@mail.com', password: 'Pa55w0rd', password2: 'Pa55w0rd'};
 
     st.plan(4);
 
