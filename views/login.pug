@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  form#login(method='post')
+  form(method='post')
     .form-group
       label.control-label(for='login-email') Email:
       input#login-email.form-control(type='email', name='email', required, value=form && form.email, placeholder='Email Address')

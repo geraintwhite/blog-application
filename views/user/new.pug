@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  form#signup(method='post')
+  form(method='post')
     .form-group(class=errors && errors.email && 'has-error')
       label.control-label(for='signup-email') Email:
       input#signup-email.form-control(type='email', name='email', required, value=form && form.email, placeholder='Email Address')

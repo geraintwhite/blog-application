@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  form#create-article(method='post')
+  form(method='post')
     .form-group
       label.control-label(for='create-article-title') Title:
       input#create-article-title.form-control(type='text', name='title', required, value=form && form.title, placeholder='Article Title')
