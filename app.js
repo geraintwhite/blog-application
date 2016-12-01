@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import sass from 'node-sass-middleware';
 import session from 'express-session';
+import moment from 'moment';
 
 import {secret} from './config';
 
@@ -17,6 +18,8 @@ const app = express();
 
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'pug');
+
+app.locals.moment = moment;
 
 app.use(session({resave: false, saveUninitialized: false, secret}));
 app.use(bodyParser.urlencoded({extended: true}));
