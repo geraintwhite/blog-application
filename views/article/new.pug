@@ -12,5 +12,5 @@ block content
       label.control-label(for='create-article-content') Content:
       textarea#create-article-content.form-control(name='content', required, placeholder='Article Content')= form && form.content
     .form-group(class=err && 'has-error')
-      button.btn(type='submit') Create Article
+      button.btn.btn-default(type='submit') Create Article
       .help-block= err
