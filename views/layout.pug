@@ -12,7 +12,7 @@ html
       ul.nav.navbar-nav.navbar-right
         if user
           li.dropdown
-            a.dropdown-toggle(href='#' data-toggle='dropdown') Fred
+            a.dropdown-toggle(href='#' data-toggle='dropdown')= user.name
               span.caret
             ul.dropdown-menu
               li: a(href=`/user/${user.id}`) Manage User

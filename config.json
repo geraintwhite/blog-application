@@ -1,4 +1,5 @@
 {
+  "secret": "58177961eebef8ff97d5b985a75170ed",
   "db": {
     "host": "127.0.0.1",
     "user": "blog",

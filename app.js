@@ -2,7 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import sass from 'node-sass-middleware';
+import session from 'express-session';
 
+import {secret} from './config';
+
+import AuthRouter from './routes/auth';
 import ArticleRouter from './routes/article';
 import AuthorRouter from './routes/author';
 import TagRouter from './routes/tag';
@@ -14,9 +18,12 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'pug');
 
+app.use(session({resave: false, saveUninitialized: false, secret}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(sass(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(AuthRouter);
 
 app.get('/', (req, res) => res.redirect('/article'));
 
