@@ -13,7 +13,7 @@ block content
     .panel-body
       a.article-author(href=`/author/${article.author_id}`)= article.author_name
 
-  .article-content.well= article.content
+  .article-content.well.pre= article.content
 
   .article-comments
     each comment in comments
