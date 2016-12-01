@@ -4,3 +4,12 @@
 .label + .label {
   margin-left: 5px;
 }
+
+.article-title + .article-date {
+  display: inline-block;
+
+  &:before {
+    margin: 0 5px;
+    content: '-';
+  }
+}
