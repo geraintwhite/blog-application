@@ -1,14 +1,17 @@
 extends ../layout
 
 block content
-  .panel.panel-primary
+  .panel.panel-default
     .panel-heading
-      h3.panel-title
-        a.article-author(href=`/author/${article.author_id}`)= article.author_name
-    .panel-body
-      .article-tags
+      .panel-title.pull-left
+        a.article-title(href=`/article/${article.article_id}`)= article.title
+        .article-date= moment(article.date_published).format('YYYY-MM-DD HH:mm')
+      .article-tags.pull-right
         each tag in article.tags
           a.tag.label.label-default(href=`/tag/${tag.tag_id}`)= tag.tag_name
+      .clearfix
+    .panel-body
+      a.article-author(href=`/author/${article.author_id}`)= article.author_name
 
   .article-content.well= article.content
 
