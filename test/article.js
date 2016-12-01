@@ -143,6 +143,11 @@ const tests = (t) => {
       cb({code: 'ER_ERROR'}, null);
     };
 
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
     api.create(article, (code, data) => {
       st.equal(code, 500, 'correct status code');
       st.equal(data.err, 'Server error', 'correct error message');
@@ -159,6 +164,11 @@ const tests = (t) => {
 
     db.createArticle = (obj, cb) => {
       st.fail('db.createArticle should not be called');
+      st.end();
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
       st.end();
     };
 
@@ -181,6 +191,11 @@ const tests = (t) => {
       st.end();
     };
 
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
     api.create(article, (code, data) => {
       st.equal(code, 400, 'correct status code');
       st.equal(data.err, 'Invalid article object', 'correct error message');
@@ -200,6 +215,11 @@ const tests = (t) => {
       st.end();
     };
 
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
     api.create(article, (code, data) => {
       st.equal(code, 400, 'correct status code');
       st.equal(data.err, 'Invalid article object', 'correct error message');
@@ -212,12 +232,18 @@ const tests = (t) => {
 
     const article = {author_id: 20, title: 'Some title', content: 'Lorem Ipsum Dolor', tags: ['truth', 'cool']};
 
-    st.plan(4);
+    st.plan(10);
 
     db.createArticle = (obj, cb) => {
       st.pass('db.createArticle is called');
       st.deepEqual(obj, article, 'correct article object');
       cb(null, 1);
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.pass('db.tagArticle is called');
+      st.equal(article_id, 1, 'correct article ID');
+      st.ok(article.tags.indexOf(tag_name) > -1, 'correct tag name');
     };
 
     api.create(article, (code, data) => {
