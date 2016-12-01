@@ -3,12 +3,14 @@ extends ../layout
 block content
   form#create-article(method='post')
     .form-group
-      label(for='create-article-title') Title:
-      input#create-article-title.form-control(type='text', name='title', placeholder='Article Title')
+      label.control-label(for='create-article-title') Title:
+      input#create-article-title.form-control(type='text', name='title', required, value=form && form.title, placeholder='Article Title')
     .form-group
-      label(for='create-article-tags') Tags:
-      input#create-article-tags.form-control(type='text', name='tags', placeholder='Article Tags')
+      label.control-label(for='create-article-tags') Tags:
+      input#create-article-tags.form-control(type='text', name='tags', value=form && form.tags, placeholder='Article Tags')
     .form-group
-      label(for='create-article-content') Content:
-      textarea#create-article-content.form-control(name='content', placeholder='Article Content')
-    button.btn(type='submit') Create Article
+      label.control-label(for='create-article-content') Content:
+      textarea#create-article-content.form-control(name='content', required, placeholder='Article Content')= form && form.content
+    .form-group(class=err && 'has-error')
+      button.btn(type='submit') Create Article
+      .help-block= err

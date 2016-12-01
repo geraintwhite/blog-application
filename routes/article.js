@@ -20,12 +20,25 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/new', (req, res) => {
+router.get('/new', isAuthor, (req, res) => {
   res.render('article/new', {title: 'New Article'});
 });
 
-router.post('/new', (req, res) => {
-  res.send(req.body);
+router.post('/new', isAuthor, (req, res) => {
+  const article = {
+    author_id: res.locals.user.user_id,
+    title: req.body.title,
+    content: req.body.content,
+    tags: req.body.tags ? req.body.tags.split(/,\s*/) : [],
+  };
+
+  articleAPI.create(article, (code, data) => {
+    if (code !== 200) {
+      res.render('article/new', {title: 'New Article', form: req.body, err: data.err, errors: data.errors});
+    } else {
+      res.redirect(`/article/${data.id}`);
+    }
+  });
 });
 
 router.get('/:id', (req, res) => {
