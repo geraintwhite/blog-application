@@ -62,6 +62,27 @@ class ArticleDB {
       cb(err, rows);
     });
   }
+
+  createArticle(article, cb) {
+    const sql =
+      'INSERT INTO article ' +
+        '(author_id, title, content) ' +
+      'VALUES (?, ?, ?)';
+
+    this.pool.query(sql, [article.author_id, article.title, article.content], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows && rows.insertId);
+    });
+  }
+
+  tagArticle(article_id, tag_name) {
+    const sql =
+      'CALL tag_article(?, ?)';
+
+    this.pool.query(sql, [article_id, tag_name], (err, rows) => {
+      if (err) console.error(err);
+    });
+  }
 }
 
 
