@@ -17,7 +17,7 @@ html
             ul.dropdown-menu
               li: a(href=`/user/${user.user_id}`) Manage Personal details
               if user.is_author
-                li: a(href=`/user/${user.user_id}/article`) View my Articles
+                li: a(href=`/author/${user.user_id}`) View my Articles
                 li: a(href='/article/new') Publish an Article
               if user.is_admin
                 li: a(href='/user') Manage Users
