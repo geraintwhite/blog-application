@@ -30,7 +30,8 @@ class ArticleDB {
 
   getArticles(cb) {
     const sql = articleSelect +
-      'GROUP BY article.article_id';
+      'GROUP BY article.article_id ' +
+      'ORDER BY article.date_published DESC';
 
     this.pool.query(sql, (err, rows) => {
       if (err) console.error(err);
