@@ -11,7 +11,12 @@ block content
           a.tag.label.label-default(href=`/tag/${tag.tag_id}`)= tag.tag_name
       .clearfix
     .panel-body
-      a.article-author(href=`/author/${article.author_id}`)= article.author_name
+      .pull-left
+        a.article-author(href=`/author/${article.author_id}`)= article.author_name
+      .pull-right
+        if article.author_id === user.user_id
+          a.btn.btn-default(href=`/article/${article.article_id}/edit`) Modify Article
+          a.btn.btn-default(href=`/article/${article.article_id}/delete`) Delete Article
 
   .article-content.well.pre= article.content
 

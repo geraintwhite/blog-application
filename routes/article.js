@@ -59,5 +59,20 @@ router.get('/:id', (req, res) => {
   });
 });
 
+router.get('/:id/edit', isAuthor, (req, res) => {
+  articleAPI.get(req.params.id, (code, data) => {
+    if (code !== 200) {
+      return res.render('error', {title: 'Error', message: data.err});
+    }
+
+    if (data.article.author_id !== req.session.user) {
+      return res.redirect('/');
+    }
+
+    data.article.tags = data.article.tags.map((t) => t.tag_name).join(', ');
+    res.render('article/new', {title: 'Modify Article', form: data.article});
+  });
+});
+
 
 export default router;
