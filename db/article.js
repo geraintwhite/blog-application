@@ -75,6 +75,29 @@ class ArticleDB {
     });
   }
 
+  updateArticle(article_id, article, cb) {
+    const sql =
+      'UPDATE article ' +
+      'SET title = ?, content = ? ' +
+      'WHERE article_id = ?';
+
+    this.pool.query(sql, [article.title, article.content, article_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows && rows.affectedRows);
+    });
+  }
+
+  removeTags(article_id, cb) {
+    const sql =
+      'DELETE FROM article_tag ' +
+      'WHERE article_id = ?';
+
+    this.pool.query(sql, [article_id], (err, rows) => {
+      if (err) console.error(err);
+      cb();
+    });
+  }
+
   tagArticle(article_id, tag_name) {
     const sql =
       'CALL tag_article(?, ?)';
