@@ -9,8 +9,7 @@ class UserDB {
   createUser(user, cb) {
     const sql =
       'INSERT INTO user ' +
-        '(name, email, password) ' +
-      'VALUES (?, ?, ?)';
+      'SET name = ?, email = ?, password = ?';
 
     const hash = bcrypt.hashSync(user.password, 12);
 

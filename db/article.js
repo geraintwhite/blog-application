@@ -67,8 +67,7 @@ class ArticleDB {
   createArticle(article, cb) {
     const sql =
       'INSERT INTO article ' +
-        '(author_id, title, content) ' +
-      'VALUES (?, ?, ?)';
+      'SET author_id = ?, title = ?, content = ?';
 
     this.pool.query(sql, [article.author_id, article.title, article.content], (err, rows) => {
       if (err) console.error(err);
