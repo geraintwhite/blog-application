@@ -14,7 +14,7 @@ block content
       .pull-left
         a.article-author(href=`/author/${article.author_id}`)= article.author_name
       .pull-right
-        if article.author_id === user.user_id
+        if user && user.user_id === article.author_id
           a.btn.btn-default(href=`/article/${article.article_id}/edit`) Modify Article
           a.btn.btn-default(href=`/article/${article.article_id}/delete`) Delete Article
 
