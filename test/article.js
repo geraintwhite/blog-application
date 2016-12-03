@@ -256,7 +256,7 @@ const tests = (t) => {
   t.test('article.update error', (st) => {
     const db = {}, api = new ArticleAPI(db);
 
-    const article = {content: 'Lorem Ipsum Dolor', tags: ['nothing']};
+    const article = {title: 'SOME TITLE', content: 'Lorem Ipsum Dolor', tags: ['nothing', 'something']};
 
     st.plan(5);
 
@@ -265,6 +265,16 @@ const tests = (t) => {
       st.equal(id, 1, 'correct article ID');
       st.deepEqual(obj, article, 'correct article object');
       cb({code: 'ER_ERROR'}, null);
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
+    db.removeTags = (article_id) => {
+      st.fail('db.removeTags should not be called');
+      st.end();
     };
 
     api.update(1, article, (code, data) => {
@@ -277,12 +287,22 @@ const tests = (t) => {
   t.test('article.update invalid article ID', (st) => {
     const db = {}, api = new ArticleAPI(db);
 
-    const article = {content: 'Lorem Ipsum Dolor', tags: ['nothing']};
+    const article = {title: 'SOME TITLE', content: 'Lorem Ipsum Dolor', tags: ['nothing', 'something']};
 
     st.plan(2);
 
     db.updateArticle = (id, obj, cb) => {
       st.fail('db.updateArticle should not be called');
+      st.end();
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
+    db.removeTags = (article_id) => {
+      st.fail('db.removeTags should not be called');
       st.end();
     };
 
@@ -293,15 +313,54 @@ const tests = (t) => {
     });
   });
 
-  t.test('article.update invalid tags', (st) => {
+  t.test('article.update empty object', (st) => {
     const db = {}, api = new ArticleAPI(db);
 
-    const article = {content: 'Lorem Ipsum Dolor', tags: 'BOGUS'};
+    const article = {};
 
     st.plan(2);
 
     db.updateArticle = (id, obj, cb) => {
       st.fail('db.updateArticle should not be called');
+      st.end();
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
+    db.removeTags = (article_id) => {
+      st.fail('db.removeTags should not be called');
+      st.end();
+    };
+
+    api.update(1, article, (code, data) => {
+      st.equal(code, 400, 'correct status code');
+      st.equal(data.err, 'Invalid article object', 'correct error message');
+      st.end();
+    });
+  });
+
+  t.test('article.update invalid tags', (st) => {
+    const db = {}, api = new ArticleAPI(db);
+
+    const article = {title: 'SOME TITLE', content: 'Lorem Ipsum Dolor', tags: 'BOGUS'};
+
+    st.plan(2);
+
+    db.updateArticle = (id, obj, cb) => {
+      st.fail('db.updateArticle should not be called');
+      st.end();
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
+    db.removeTags = (article_id) => {
+      st.fail('db.removeTags should not be called');
       st.end();
     };
 
@@ -315,7 +374,7 @@ const tests = (t) => {
   t.test('article.update article not found', (st) => {
     const db = {}, api = new ArticleAPI(db);
 
-    const article = {content: 'Lorem Ipsum Dolor', tags: ['nothing']};
+    const article = {title: 'SOME TITLE', content: 'Lorem Ipsum Dolor', tags: ['nothing', 'something']};
 
     st.plan(5);
 
@@ -324,6 +383,16 @@ const tests = (t) => {
       st.equal(id, 1, 'correct article ID');
       st.deepEqual(obj, article, 'correct article object');
       cb(null, false);
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.fail('db.tagArticle should not be called');
+      st.end();
+    };
+
+    db.removeTags = (article_id) => {
+      st.fail('db.removeTags should not be called');
+      st.end();
     };
 
     api.update(1, article, (code, data) => {
@@ -336,15 +405,27 @@ const tests = (t) => {
   t.test('article.update success', (st) => {
     const db = {}, api = new ArticleAPI(db);
 
-    const article = {content: 'Lorem Ipsum Dolor', tags: ['nothing']};
+    const article = {title: 'SOME TITLE', content: 'Lorem Ipsum Dolor', tags: ['nothing', 'something']};
 
-    st.plan(4);
+    st.plan(12);
 
     db.updateArticle = (id, obj, cb) => {
       st.pass('db.updateArticle is called');
       st.equal(id, 1, 'correct article ID');
       st.deepEqual(obj, article, 'correct article object');
       cb(null, true);
+    };
+
+    db.tagArticle = (article_id, tag_name) => {
+      st.pass('db.tagArticle is called');
+      st.equal(article_id, 1, 'correct article ID');
+      st.ok(article.tags.indexOf(tag_name) > -1, 'correct tag name');
+    };
+
+    db.removeTags = (article_id, cb) => {
+      st.pass('db.removeTags is called');
+      st.equal(article_id, 1, 'correct article ID');
+      cb();
     };
 
     api.update(1, article, (code, data) => {
