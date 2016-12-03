@@ -70,7 +70,33 @@ router.get('/:id/edit', isAuthor, (req, res) => {
     }
 
     data.article.tags = data.article.tags.map((t) => t.tag_name).join(', ');
-    res.render('article/new', {title: 'Modify Article', form: data.article});
+    res.render('article/edit', {title: 'Modify Article', form: data.article});
+  });
+});
+
+router.post('/:id/edit', isAuthor, (req, res) => {
+  articleAPI.get(req.params.id, (code, data) => {
+    if (code !== 200) {
+      res.render('article/edit', {title: 'Modify Article', form: req.body, err: data.err});
+    }
+
+    if (data.article.author_id !== req.session.user) {
+      return res.redirect(`/article/${req.params.id}`);
+    }
+
+    const article = {
+      title: req.body.title,
+      content: req.body.content,
+      tags: req.body.tags ? req.body.tags.split(/,\s*/) : [],
+    };
+
+    articleAPI.update(req.params.id, article, (code, data) => {
+      if (code !== 200) {
+        res.render('article/edit', {title: 'Modify Article', form: req.body, err: data.err});
+      } else {
+        res.redirect(`/article/${req.params.id}`);
+      }
+    });
   });
 });
 
