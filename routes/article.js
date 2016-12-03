@@ -66,7 +66,7 @@ router.get('/:id/edit', isAuthor, (req, res) => {
     }
 
     if (data.article.author_id !== req.session.user) {
-      return res.redirect('/');
+      return res.redirect(`/article/${req.params.id}`);
     }
 
     data.article.tags = data.article.tags.map((t) => t.tag_name).join(', ');
