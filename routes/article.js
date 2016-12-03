@@ -34,7 +34,7 @@ router.post('/new', isAuthor, (req, res) => {
 
   articleAPI.create(article, (code, data) => {
     if (code !== 200) {
-      res.render('article/new', {title: 'New Article', form: req.body, err: data.err, errors: data.errors});
+      res.render('article/new', {title: 'New Article', form: req.body, err: data.err});
     } else {
       res.redirect(`/article/${data.id}`);
     }
