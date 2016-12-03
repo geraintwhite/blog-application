@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  form(method='post')
+    .form-group
+      label.control-label(for='edit-article-title') Title:
+      input#edit-article-title.form-control(type='text', name='title', required, value=form && form.title, placeholder='Article Title')
+    .form-group
+      label.control-label(for='edit-article-tags') Tags:
+      input#edit-article-tags.form-control(type='text', name='tags', value=form && form.tags, placeholder='Article Tags')
+    .form-group
+      label.control-label(for='edit-article-content') Content:
+      textarea#edit-article-content.form-control(name='content', required, placeholder='Article Content')= form && form.content
+    .form-group(class=err && 'has-error')
+      button.btn.btn-default(type='submit') Modify Article
+      .help-block= err
