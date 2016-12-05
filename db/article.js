@@ -56,7 +56,8 @@ class ArticleDB {
              'comment.user_id, user.name AS user_name ' +
       'FROM comment ' +
         'LEFT JOIN user ON user.user_id = comment.user_id ' +
-      'WHERE comment.article_id = ?';
+      'WHERE comment.article_id = ? ' +
+      'ORDER BY comment.date_published DESC';
 
     this.pool.query(sql, [article_id], (err, rows) => {
       if (err) console.error(err);

@@ -9,6 +9,7 @@ import {secret} from './config';
 
 import AuthRouter from './routes/auth';
 import ArticleRouter from './routes/article';
+import CommentRouter from './routes/comment';
 import AuthorRouter from './routes/author';
 import TagRouter from './routes/tag';
 import UserRouter from './routes/user';
@@ -31,6 +32,7 @@ app.use(AuthRouter);
 app.get('/', (req, res) => res.redirect('/article'));
 
 app.use('/article', ArticleRouter);
+app.use('/comment', CommentRouter);
 app.use('/author', AuthorRouter);
 app.use('/tag', TagRouter);
 app.use('/user', UserRouter);

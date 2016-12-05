@@ -26,7 +26,7 @@ router.get('/new', isAuthor, (req, res) => {
 
 router.post('/new', isAuthor, (req, res) => {
   const article = {
-    author_id: res.locals.user.user_id,
+    author_id: req.session.user,
     title: req.body.title,
     content: req.body.content,
     tags: req.body.tags ? req.body.tags.split(/,\s*/) : [],
@@ -54,8 +54,10 @@ router.get('/:id', (req, res) => {
         res.render('error', {title: 'Error', message: data.err});
       } else {
         const err = req.session.err;
+        const comment = req.session.comment;
         delete req.session.err;
-        res.render('article/show', {title: article.title, comments: data.comments, article, err});
+        delete req.session.comment;
+        res.render('article/show', {title: article.title, comments: data.comments, article, err, comment});
       }
     });
   });

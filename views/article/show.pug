@@ -24,9 +24,23 @@ block content
   .article-content.well.pre= article.content
 
   .article-comments
+    if user
+      .create-comment.panel.panel-primary
+        .panel-heading Leave a comment
+        .panel-body
+          form(method='post', action='/comment')
+            input(hidden, required, name='article_id', value=article.article_id)
+            .form-group
+              label.control-label(for='create-comment-text') Comment:
+              textarea#create-comment-text.form-control(name='text', required, placeholder='Comment')= comment
+            .form-group
+              button.btn.btn-default(type='submit') Leave Comment
+
     each comment in comments
       .comment.panel.panel-default
         .panel-heading
-          .comment-user= comment.user_name
+          .comment-user.pull-left= comment.user_name
+          .comment-date.pull-right= moment(comment.date_published).format('YYYY-MM-DD HH:mm')
+          .clearfix
         .panel-body
           .comment-text= comment.text
