@@ -79,7 +79,7 @@ router.get('/:id/edit', isAuthor, (req, res) => {
 router.post('/:id/edit', isAuthor, (req, res) => {
   articleAPI.get(req.params.id, (code, data) => {
     if (code !== 200) {
-      res.render('article/edit', {title: 'Modify Article', form: req.body, err: data.err});
+      return res.render('error', {title: 'Error', message: data.err});
     }
 
     if (data.article.author_id !== req.session.user) {
