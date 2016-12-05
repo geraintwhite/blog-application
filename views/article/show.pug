@@ -28,7 +28,7 @@ block content
       .create-comment.panel.panel-primary
         .panel-heading Leave a comment
         .panel-body
-          form(method='post', action='/comment')
+          form(method='post', action='/comment/new')
             input(hidden, required, name='article_id', value=article.article_id)
             .form-group
               label.control-label(for='create-comment-text') Comment:

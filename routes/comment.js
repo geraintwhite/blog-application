@@ -10,7 +10,7 @@ const commentAPI = new CommentAPI(new CommentDB(pool));
 const router = express.Router();
 
 
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/new', isLoggedIn, (req, res) => {
   const comment = {
     user_id: req.session.user,
     article_id: req.body.article_id,
