@@ -87,6 +87,17 @@ class ArticleDB {
     });
   }
 
+  deleteArticle(article_id, cb) {
+    const sql =
+      'DELETE FROM article ' +
+      'WHERE article_id = ?';
+
+    this.pool.query(sql, [article_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows && rows.affectedRows);
+    });
+  }
+
   removeTags(article_id, cb) {
     const sql =
       'DELETE FROM article_tag ' +

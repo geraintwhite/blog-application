@@ -100,5 +100,26 @@ router.post('/:id/edit', isAuthor, (req, res) => {
   });
 });
 
+router.get('/:id/delete', isAuthor, (req, res) => {
+  articleAPI.get(req.params.id, (code, data) => {
+    if (code !== 200) {
+      return res.render('error', {title: 'Error', message: data.err});
+    }
+
+    if (data.article.author_id !== req.session.user) {
+      return res.redirect(`/article/${req.params.id}`);
+    }
+
+    articleAPI.remove(req.params.id, (code, data) => {
+      if (code !== 200) {
+        req.session.err = data.err;
+        res.redirect(`/article/${req.params.id}`);
+      } else {
+        res.redirect('/');
+      }
+    });
+  });
+});
+
 
 export default router;
