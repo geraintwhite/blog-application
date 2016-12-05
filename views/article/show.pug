@@ -43,4 +43,8 @@ block content
           .comment-date.pull-right= moment(comment.date_published).format('YYYY-MM-DD HH:mm')
           .clearfix
         .panel-body
-          .comment-text= comment.text
+          .pull-left
+            .comment-text= comment.text
+          .pull-right
+            if user && user.user_id === comment.user_id
+              a.btn.btn-default(href=`/comment/${comment.comment_id}/delete`) Delete Comment
