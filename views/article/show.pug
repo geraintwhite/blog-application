@@ -18,6 +18,9 @@ block content
           a.btn.btn-default(href=`/article/${article.article_id}/edit`) Modify Article
           a.btn.btn-default(href=`/article/${article.article_id}/delete`) Delete Article
 
+  if err
+    .alert.alert-danger= err
+
   .article-content.well.pre= article.content
 
   .article-comments

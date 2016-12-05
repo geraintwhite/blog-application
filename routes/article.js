@@ -53,7 +53,9 @@ router.get('/:id', (req, res) => {
       if (code !== 200) {
         res.render('error', {title: 'Error', message: data.err});
       } else {
-        res.render('article/show', {title: article.title, article: article, comments: data.comments});
+        const err = req.session.err;
+        delete req.session.err;
+        res.render('article/show', {title: article.title, comments: data.comments, article, err});
       }
     });
   });
