@@ -27,5 +27,27 @@ router.post('/', isLoggedIn, (req, res) => {
   });
 });
 
+router.get('/:id/delete', isLoggedIn, (req, res) => {
+  commentAPI.get(req.params.id, (code, data) => {
+    if (code !== 200) {
+      return res.render('error', {title: 'Error', message: data.err});
+    }
+
+    const comment = data.comment;
+
+    if (comment.user_id !== req.session.user) {
+      return res.redirect(`/article/${comment.article_id}`);
+    }
+
+    commentAPI.remove(req.params.id, (code, data) => {
+      if (code !== 200) {
+        req.session.err = data.err;
+      }
+
+      res.redirect(`/article/${comment.article_id}`);
+    });
+  });
+});
+
 
 export default router;

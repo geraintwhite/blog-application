@@ -30,6 +30,17 @@ class CommentDB {
       cb(err, rows && rows.insertId);
     });
   }
+
+  deleteComment(comment_id, cb) {
+    const sql =
+      'DELETE FROM comment ' +
+      'WHERE comment_id = ?';
+
+    this.pool.query(sql, [comment_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows && rows.affectedRows);
+    });
+  }
 }
 
 
