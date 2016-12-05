@@ -1,3 +1,6 @@
+import {commentSelect} from './comment';
+
+
 export const groupTags = (rows) => {
   rows.forEach((row) => {
     row.tags = [];
@@ -51,11 +54,7 @@ class ArticleDB {
   }
 
   getCommentsByArticle(article_id, cb) {
-    const sql =
-      'SELECT comment.comment_id, comment.text, comment.date_published, ' +
-             'comment.user_id, user.name AS user_name ' +
-      'FROM comment ' +
-        'LEFT JOIN user ON user.user_id = comment.user_id ' +
+    const sql = commentSelect +
       'WHERE comment.article_id = ? ' +
       'ORDER BY comment.date_published DESC';
 
