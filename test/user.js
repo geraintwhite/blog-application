@@ -288,7 +288,7 @@ const tests = (t) => {
   t.test('user.update error', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Joe Bloggs'};
+    const user = {name: 'Joe Bloggs', email: 'newperson@mail.com'};
 
     st.plan(5);
 
@@ -309,7 +309,7 @@ const tests = (t) => {
   t.test('user.update user not found', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Joe Bloggs'};
+    const user = {name: 'Joe Bloggs', email: 'newperson@mail.com'};
 
     st.plan(5);
 
@@ -330,7 +330,7 @@ const tests = (t) => {
   t.test('user.update user already exists', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {email: 'joe.bloggs@mail.com'};
+    const user = {name: 'Joe Bloggs', email: 'newperson@mail.com'};
 
     st.plan(5);
 
@@ -348,10 +348,10 @@ const tests = (t) => {
     });
   });
 
-  t.test('user.update invalid email address', (st) => {
+  t.test('user.update empty object', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {email: 'not.an.email.address'};
+    const user = {};
 
     st.plan(2);
 
@@ -367,10 +367,10 @@ const tests = (t) => {
     });
   });
 
-  t.test('user.update weak password', (st) => {
+  t.test('user.update invalid email address', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {password: 'asdf'};
+    const user = {name: 'Joe Bloggs', email: 'not.an.email.address'};
 
     st.plan(2);
 
@@ -389,7 +389,7 @@ const tests = (t) => {
   t.test('user.update success', (st) => {
     const db = {}, api = new UserAPI(db);
 
-    const user = {name: 'Joe Bloggs'};
+    const user = {name: 'Joe Bloggs', email: 'newperson@mail.com'};
 
     st.plan(4);
 
