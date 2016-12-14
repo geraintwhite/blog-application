@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  form(method='post')
+    .form-group
+      label.control-label(for='reset-email') Email:
+      input#reset-email.form-control(type='email', name='email', required, value=form && form.email, placeholder='Email Address')
+    .form-group(class=errors && errors.password && 'has-error')
+      label.control-label(for='reset-password') New password:
+      input#reset-password.form-control(type='password', name='password', required, value=form && form.password, placeholder='New password')
+      .help-block= errors && errors.password
+    .form-group(class=errors && errors.password2 && 'has-error')
+      label.control-label(for='reset-password2') Confirm password:
+      input#reset-password2.form-control(type='password', name='password2', required, value=form && form.password2, placeholder='Confirm password')
+      .help-block= errors && errors.password2
+    .form-group(class=err && 'has-error')
+      button.btn.btn-default.btn-space(type='submit') Reset Password
+      .help-block= err

@@ -1,0 +1,11 @@
+extends ../layout
+
+block content
+  form(method='post')
+    .form-group
+      label.control-label(for='reset-email') Email:
+      input#reset-email.form-control(type='email', name='email', required, value=email, placeholder='Email Address')
+    .form-group(class=`${err && 'has-error'} ${success && 'has-success'}`)
+      button.btn.btn-default(type='submit') Send Reset Code
+      .help-block= err
+      .help-block= success

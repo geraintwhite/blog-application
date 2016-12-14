@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import {randomBytes} from 'crypto';
 
 
 class UserDB {
@@ -50,6 +51,34 @@ class UserDB {
     this.pool.query(sql, [email], (err, rows) => {
       if (err) console.error(err);
       cb(err, rows && rows[0]);
+    });
+  }
+
+  generateResetCode(user_id, cb) {
+    const sql =
+      'UPDATE user ' +
+      'SET reset_code = ? ' +
+      'WHERE user_id = ?';
+
+    const code = randomBytes(32).toString('hex');
+
+    this.pool.query(sql, [code, user_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, code);
+    });
+  }
+
+  resetPassword(user_id, password, cb) {
+    const sql =
+      'UPDATE user ' +
+      'SET reset_code = NULL, password = ? ' +
+      'WHERE user_id = ?';
+
+    const hash = bcrypt.hashSync(password, 12);
+
+    this.pool.query(sql, [hash, user_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows && rows.affectedRows);
     });
   }
 }
