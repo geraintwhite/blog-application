@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  form(method='post')
+    .form-group(class=errors && errors.email && 'has-error')
+      label.control-label(for='edit-user-email') Email:
+      input#edit-user-email.form-control(type='email', name='email', required, value=form && form.email, placeholder='Email Address')
+      .help-block= errors && errors.email
+    .form-group(class=errors && errors.name && 'has-error')
+      label.control-label(for='edit-user-name') Name:
+      input#edit-user-name.form-control(type='text', name='name', required, value=form && form.name, placeholder='Full Name')
+      .help-block= errors && errors.name
+    .form-group(class=errors && errors.password && 'has-error')
+      label.control-label(for='edit-user-password') Confirm Password:
+      input#edit-user-password.form-control(type='password', name='password', required, placeholder='Confirm Password')
+      .help-block= errors && errors.password
+    .form-group(class=err && 'has-error')
+      button.btn.btn-default.btn-space(type='submit') Modify Details
+      a(href='/reset') Reset password
+      .help-block= err

@@ -19,6 +19,18 @@ class UserDB {
     });
   }
 
+  updateUser(user_id, user, cb) {
+    const sql =
+      'UPDATE user ' +
+      'SET name = ?, email = ? ' +
+      'WHERE user_id = ?';
+
+    this.pool.query(sql, [user.name, user.email, user_id], (err, rows) => {
+      if (err) console.error(err);
+      cb(err, rows && rows.affectedRows);
+    });
+  }
+
   getUser(user_id, cb) {
     const sql =
       'SELECT * FROM user ' +

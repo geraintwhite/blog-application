@@ -2,7 +2,7 @@ li.dropdown
   a.dropdown-toggle(href='#' data-toggle='dropdown')= user.name
     span.caret
   ul.dropdown-menu
-    li: a(href=`/user/${user.user_id}`) Manage personal details
+    li: a(href=`/user/${user.user_id}/edit`) Manage personal details
     li: a(href=`/user/${user.user_id}/subscription`) Manage subscriptions
     if user.is_author
       li: a(href=`/author/${user.user_id}`) View my articles
