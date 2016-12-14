@@ -4,7 +4,7 @@ block content
   form(method='post')
     .form-group
       label.control-label(for='login-email') Email:
-      input#login-email.form-control(type='email', name='email', required, value=form && form.email, placeholder='Email Address')
+      input#login-email.form-control(type='email', name='email', required, autofocus, value=form && form.email, placeholder='Email Address')
     .form-group
       label.control-label(for='login-password') Password:
       input#login-password.form-control(type='password', name='password', required, value=form && form.password, placeholder='Password')
