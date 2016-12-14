@@ -9,5 +9,6 @@ block content
       label.control-label(for='login-password') Password:
       input#login-password.form-control(type='password', name='password', required, value=form && form.password, placeholder='Password')
     .form-group(class=err && 'has-error')
-      button.btn.btn-default(type='submit') Log In
+      button.btn.btn-default.btn-space(type='submit') Log In
+      a(href='/reset') Reset password
       .help-block= err
