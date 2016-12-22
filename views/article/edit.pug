@@ -12,5 +12,5 @@ block content
       label.control-label(for='edit-article-content') Content:
       textarea#edit-article-content.form-control(name='content', required, placeholder='Article Content')= form && form.content
     .form-group(class=err && 'has-error')
-      button.btn.btn-default(type='submit') Modify Article
+      button.btn.btn-primary(type='submit') Modify Article
       .help-block= err

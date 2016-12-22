@@ -15,6 +15,6 @@ block content
       input#edit-user-password.form-control(type='password', name='password', required, placeholder='Confirm Password')
       .help-block= errors && errors.password
     .form-group(class=err && 'has-error')
-      button.btn.btn-default.btn-space(type='submit') Modify Details
+      button.btn.btn-primary.btn-space(type='submit') Modify Details
       a(href='/reset') Reset password
       .help-block= err
