@@ -1,8 +1,9 @@
 {
   "name": "sdd-assignment",
   "scripts": {
-    "start": "babel-node app.js --presets latest",
-    "test": "babel-node test --presets latest | tap-spec"
+    "start": "node dist/app.js",
+    "build": "babel src -d dist",
+    "test": "babel-node test | tap-spec"
   },
   "author": "Geraint White <mail@geraintwhite.co.uk>",
   "dependencies": {
@@ -18,7 +19,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
-    "babel-preset-latest": "^6.16.0",
+    "babel-preset-env": "^1.1.4",
     "tap-spec": "^4.1.1",
     "tape": "^4.6.2"
   }

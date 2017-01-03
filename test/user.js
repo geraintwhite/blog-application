@@ -1,4 +1,4 @@
-import UserAPI from '../lib/user';
+import UserAPI from '../src/lib/user';
 
 
 const tests = (t) => {

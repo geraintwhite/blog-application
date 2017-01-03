@@ -3,3 +3,4 @@ node_modules
 .tags
 npm-debug.log
 public/css/style.css
+dist

@@ -1,4 +1,4 @@
-import AuthorAPI from '../lib/author';
+import AuthorAPI from '../src/lib/author';
 
 
 const tests = (t) => {

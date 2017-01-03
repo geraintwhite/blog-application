@@ -1,4 +1,4 @@
-import CommentAPI from '../lib/comment';
+import CommentAPI from '../src/lib/comment';
 
 
 const tests = (t) => {

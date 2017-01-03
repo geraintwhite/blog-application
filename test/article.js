@@ -1,4 +1,4 @@
-import ArticleAPI from '../lib/article';
+import ArticleAPI from '../src/lib/article';
 
 
 const tests = (t) => {

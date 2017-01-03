@@ -1,4 +1,4 @@
-import TagAPI from '../lib/tag';
+import TagAPI from '../src/lib/tag';
 
 
 const tests = (t) => {
