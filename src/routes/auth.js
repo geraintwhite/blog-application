@@ -67,7 +67,7 @@ router.post('/reset', (req, res) => {
       console.log(code, data);
 
       const msg = 'Password reset email sent';
-      res.render('password/forgot', {title: 'Reset Password', email: req.body.email, success: msg});
+      res.render('password/forgot', {title: 'Reset Password', email: req.body.email, success: data.code});
     });
   });
 });
